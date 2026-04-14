@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OnePage - 我的单页工具集</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Serif+SC:wght@300;400;600&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0a0a0f;--surface:#13131a;--surface2:#1a1a24;--border:rgba(255,255,255,.07);
+  --text:#e8e8ed;--text2:#8888a0;--accent:#6b8afd;--accent2:#8b5cf6;
+  --gold:#d4a843;--green:#34d399;--pink:#f472b6;
+}
+body{font-family:'Inter','Noto Serif SC',sans-serif;background:var(--bg);color:var(--text);
+  min-height:100vh;overflow-x:hidden}
+.drama{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.drama::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;
+  background:radial-gradient(ellipse at 20% 20%,rgba(107,138,253,.08) 0%,transparent 50%),
+             radial-gradient(ellipse at 80% 80%,rgba(139,92,246,.06) 0%,transparent 50%),
+             radial-gradient(ellipse at 50% 50%,rgba(212,168,67,.04) 0%,transparent 60%)}
+.grid-dot{position:absolute;inset:0;background-image:
+  radial-gradient(circle,rgba(255,255,255,.04) 1px,transparent 1px);
+  background-size:48px 48px;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 40%,transparent 100%)}
+.hero{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center;padding:80px 24px 60px}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border-radius:100px;
+  background:rgba(107,138,253,.1);border:1px solid rgba(107,138,253,.2);
+  font-size:.72rem;color:var(--accent);letter-spacing:.12em;margin-bottom:32px}
+.hero-badge span{font-size:.9rem}
+.hero h1{font-size:clamp(3rem,8vw,6rem);font-weight:700;letter-spacing:-.03em;
+  line-height:1.05;background:linear-gradient(135deg,#fff 30%,rgba(255,255,255,.5));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:20px}
+.hero p{font-size:clamp(1rem,2.5vw,1.25rem);color:var(--text2);max-width:560px;
+  line-height:1.7;margin-bottom:48px;font-family:'Noto Serif SC',serif}
+.hero-tags{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:64px}
+.hero-tag{padding:4px 14px;border-radius:6px;background:var(--surface2);border:1px solid var(--border);
+  font-size:.72rem;color:var(--text2);letter-spacing:.06em}
+.hero-stats{display:flex;gap:48px;margin-bottom:80px}
+.stat{text-align:center}
+.stat-num{font-size:2.2rem;font-weight:700;background:linear-gradient(135deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.stat-label{font-size:.72rem;color:var(--text2);margin-top:4px;letter-spacing:.1em}
+.categories{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:0 24px 120px}
+.section-label{font-size:.7rem;letter-spacing:.2em;color:var(--text2);margin-bottom:20px;text-transform:uppercase}
+.category-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
+.cat-card{position:relative;border-radius:20px;overflow:hidden;
+  background:var(--surface);border:1px solid var(--border);
+  transition:transform .3s,box-shadow .3s;cursor:pointer;text-decoration:none;display:block}
+.cat-card:hover{transform:translateY(-4px);box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.cat-card::before{content:'';position:absolute;inset:0;opacity:.6;transition:opacity .3s}
+.cat-card:hover::before{opacity:.8}
+.cat-thumb{height:180px;display:flex;align-items:center;justify-content:center;
+  font-size:4rem;position:relative;z-index:1}
+.cat-body{padding:20px 24px 24px;position:relative;z-index:1}
+.cat-title{font-size:1.15rem;font-weight:600;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.cat-count{font-size:.7rem;padding:2px 8px;border-radius:100px;
+  background:rgba(255,255,255,.1);color:var(--text2)}
+.cat-desc{font-size:.82rem;color:var(--text2);line-height:1.6;font-family:'Noto Serif SC',serif}
+.cat-tools{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.cat-tool-tag{font-size:.68rem;padding:3px 10px;border-radius:100px;
+  border:1px solid var(--border);color:var(--text2)}
+.cat-card.edu .cat-thumb{background:linear-gradient(135deg,rgba(107,138,253,.15),rgba(139,92,246,.1))}
+.cat-card.edu::before{background:linear-gradient(135deg,rgba(107,138,253,.05),rgba(139,92,246,.03))}
+.cat-card.tool .cat-thumb{background:linear-gradient(135deg,rgba(52,211,153,.15),rgba(107,138,253,.1))}
+.cat-card.tool::before{background:linear-gradient(135deg,rgba(52,211,153,.05),rgba(107,138,253,.03))}
+.cat-card.fun .cat-thumb{background:linear-gradient(135deg,rgba(244,114,182,.15),rgba(212,168,67,.1))}
+.cat-card.fun::before{background:linear-gradient(135deg,rgba(244,114,182,.05),rgba(212,168,67,.03))}
+footer{position:relative;z-index:1;text-align:center;padding:40px 24px;
+  border-top:1px solid var(--border);color:var(--text2);font-size:.75rem}
+footer a{color:var(--accent);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="drama"><div class="grid-dot"></div></div>
+<section class="hero">
+  <div class="hero-badge"><span>&#9679;</span> OPEN SOURCE</div>
+  <h1>OnePage</h1>
+  <p>我的单页工具集，每一个工具都是一个独立的 HTML 文件。无需安装，无需服务器，直接打开即可使用。</p>
+  <div class="hero-tags">
+    <span class="hero-tag">&#9632; 无依赖</span>
+    <span class="hero-tag">&#9632; 即开即用</span>
+    <span class="hero-tag">&#9632; 完全开源</span>
+    <span class="hero-tag">&#9632; GitHub Pages 托管</span>
+  </div>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num">1</div><div class="stat-label">工具已上线</div></div>
+    <div class="stat"><div class="stat-num">3</div><div class="stat-label">分类</div></div>
+    <div class="stat"><div class="stat-num">0</div><div class="stat-label">后端服务</div></div>
+  </div>
+</section>
+<section class="categories">
+  <div class="section-label">浏览分类</div>
+  <div class="category-grid">
+    <a href="education/" class="cat-card edu">
+      <div class="cat-thumb">&#x2B50;</div>
+      <div class="cat-body">
+        <div class="cat-title">Education <span class="cat-count">1 工具</span></div>
+        <div class="cat-desc">教育学习类工具，帮助学习汉字、单词等学科知识。</div>
+        <div class="cat-tools">
+          <span class="cat-tool-tag">汉字笔画</span>
+        </div>
+      </div>
+    </a>
+    <a href="tools/" class="cat-card tool">
+      <div class="cat-thumb">&#x2699;</div>
+      <div class="cat-body">
+        <div class="cat-title">Tools <span class="cat-count">0 工具</span></div>
+        <div class="cat-desc">实用工具集，日常办公、生活中的效率小帮手。</div>
+        <div class="cat-tools">
+          <span class="cat-tool-tag">即将上线</span>
+        </div>
+      </div>
+    </a>
+    <a href="fun/" class="cat-card fun">
+      <div class="cat-thumb">&#x1F389;</div>
+      <div class="cat-body">
+        <div class="cat-title">Fun <span class="cat-count">0 工具</span></div>
+        <div class="cat-desc">趣味工具，好玩的小游戏和创意小页面。</div>
+        <div class="cat-tools">
+          <span class="cat-tool-tag">即将上线</span>
+        </div>
+      </div>
+    </a>
+  </div>
+</section>
+<footer>
+  <p>OnePage by <a href="https://github.com/jeekeagle">@jeekeagle</a> &middot; Built with GitHub Pages &middot; <a href="https://github.com/jeekeagle/OnePage">View on GitHub</a></p>
+</footer>
+</body>
+</html>
