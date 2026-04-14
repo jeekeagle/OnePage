@@ -8,71 +8,78 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Serif+SC:wght@300;400;600&display=swap');
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --bg:#0a0a0f;--surface:#13131a;--surface2:#1a1a24;--border:rgba(255,255,255,.07);
-  --text:#e8e8ed;--text2:#8888a0;--accent:#6b8afd;--accent2:#8b5cf6;
-  --gold:#d4a843;--green:#34d399;--pink:#f472b6;
+  --bg:#ffffff;
+  --surface:#f8f9fc;
+  --surface2:#f0f2f8;
+  --border:#e2e6f0;
+  --text:#1a1d2e;
+  --text2:#5a6072;
+  --accent:#3b6ff8;
+  --accent2:#5a8ff8;
+  --accent-light:#eef2ff;
+  --accent-glow:rgba(59,111,248,.08);
 }
 body{font-family:'Inter','Noto Serif SC',sans-serif;background:var(--bg);color:var(--text);
-  min-height:100vh;overflow-x:hidden}
-.drama{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
-.drama::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;
-  background:radial-gradient(ellipse at 20% 20%,rgba(107,138,253,.08) 0%,transparent 50%),
-             radial-gradient(ellipse at 80% 80%,rgba(139,92,246,.06) 0%,transparent 50%),
-             radial-gradient(ellipse at 50% 50%,rgba(212,168,67,.04) 0%,transparent 60%)}
-.grid-dot{position:absolute;inset:0;background-image:
-  radial-gradient(circle,rgba(255,255,255,.04) 1px,transparent 1px);
-  background-size:48px 48px;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 40%,transparent 100%)}
-.hero{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;text-align:center;padding:80px 24px 60px}
+  min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center;padding:80px 24px 60px;
+  background:linear-gradient(180deg,#ffffff 0%,var(--accent-light) 100%)}
+.hero::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:900px;height:900px;background:radial-gradient(ellipse,rgba(59,111,248,.07) 0%,transparent 70%);
+  pointer-events:none}
 .hero-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border-radius:100px;
-  background:rgba(107,138,253,.1);border:1px solid rgba(107,138,253,.2);
-  font-size:.72rem;color:var(--accent);letter-spacing:.12em;margin-bottom:32px}
+  background:var(--accent-light);border:1px solid rgba(59,111,248,.2);
+  font-size:.72rem;color:var(--accent);letter-spacing:.12em;margin-bottom:32px;font-weight:500}
 .hero-badge span{font-size:.9rem}
-.hero h1{font-size:clamp(3rem,8vw,6rem);font-weight:700;letter-spacing:-.03em;
-  line-height:1.05;background:linear-gradient(135deg,#fff 30%,rgba(255,255,255,.5));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:20px}
-.hero p{font-size:clamp(1rem,2.5vw,1.25rem);color:var(--text2);max-width:560px;
-  line-height:1.7;margin-bottom:48px;font-family:'Noto Serif SC',serif}
+.hero h1{font-size:clamp(3.5rem,10vw,7rem);font-weight:700;letter-spacing:-.04em;
+  line-height:1;background:linear-gradient(135deg,#1a1d2e 40%,var(--accent));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:24px}
+.hero p{font-size:clamp(1rem,2.5vw,1.3rem);color:var(--text2);max-width:560px;
+  line-height:1.8;margin-bottom:48px;font-family:'Noto Serif SC',serif;letter-spacing:.01em}
 .hero-tags{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:64px}
-.hero-tag{padding:4px 14px;border-radius:6px;background:var(--surface2);border:1px solid var(--border);
-  font-size:.72rem;color:var(--text2);letter-spacing:.06em}
-.hero-stats{display:flex;gap:48px;margin-bottom:80px}
+.hero-tag{padding:6px 16px;border-radius:8px;background:var(--surface2);border:1px solid var(--border);
+  font-size:.75rem;color:var(--text2);letter-spacing:.04em;font-weight:400}
+.hero-stats{display:flex;gap:64px;margin-bottom:80px}
 .stat{text-align:center}
-.stat-num{font-size:2.2rem;font-weight:700;background:linear-gradient(135deg,var(--accent),var(--accent2));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.stat-label{font-size:.72rem;color:var(--text2);margin-top:4px;letter-spacing:.1em}
-.categories{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:0 24px 120px}
-.section-label{font-size:.7rem;letter-spacing:.2em;color:var(--text2);margin-bottom:20px;text-transform:uppercase}
+.stat-num{font-size:2.8rem;font-weight:700;background:linear-gradient(135deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-.03em}
+.stat-label{font-size:.72rem;color:var(--text2);margin-top:6px;letter-spacing:.1em;font-weight:400}
+
+.categories{position:relative;max-width:1100px;margin:0 auto;padding:0 24px 120px}
+.section-label{font-size:.7rem;letter-spacing:.2em;color:var(--text2);margin-bottom:24px;text-transform:uppercase;font-weight:500}
 .category-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
 .cat-card{position:relative;border-radius:20px;overflow:hidden;
-  background:var(--surface);border:1px solid var(--border);
-  transition:transform .3s,box-shadow .3s;cursor:pointer;text-decoration:none;display:block}
-.cat-card:hover{transform:translateY(-4px);box-shadow:0 20px 60px rgba(0,0,0,.4)}
-.cat-card::before{content:'';position:absolute;inset:0;opacity:.6;transition:opacity .3s}
+  background:var(--bg);border:1px solid var(--border);
+  transition:transform .3s cubic-bezier(.22,1,.36,1),box-shadow .3s cubic-bezier(.22,1,.36,1);
+  cursor:pointer;text-decoration:none;display:block}
+.cat-card:hover{transform:translateY(-6px);box-shadow:0 24px 60px rgba(59,111,248,.12)}
+.cat-card::before{content:'';position:absolute;inset:0;opacity:.5;transition:opacity .3s}
 .cat-card:hover::before{opacity:.8}
-.cat-thumb{height:180px;display:flex;align-items:center;justify-content:center;
-  font-size:4rem;position:relative;z-index:1}
-.cat-body{padding:20px 24px 24px;position:relative;z-index:1}
-.cat-title{font-size:1.15rem;font-weight:600;margin-bottom:6px;display:flex;align-items:center;gap:8px}
-.cat-count{font-size:.7rem;padding:2px 8px;border-radius:100px;
-  background:rgba(255,255,255,.1);color:var(--text2)}
-.cat-desc{font-size:.82rem;color:var(--text2);line-height:1.6;font-family:'Noto Serif SC',serif}
-.cat-tools{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.cat-thumb{height:200px;display:flex;align-items:center;justify-content:center;
+  font-size:4.5rem;position:relative;z-index:1}
+.cat-body{padding:24px 28px 28px;position:relative;z-index:1;background:var(--bg)}
+.cat-title{font-size:1.15rem;font-weight:600;margin-bottom:8px;display:flex;align-items:center;gap:10px}
+.cat-count{font-size:.68rem;padding:3px 10px;border-radius:100px;
+  background:var(--accent-light);color:var(--accent);font-weight:500}
+.cat-desc{font-size:.82rem;color:var(--text2);line-height:1.65;font-family:'Noto Serif SC',serif}
+.cat-tools{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
 .cat-tool-tag{font-size:.68rem;padding:3px 10px;border-radius:100px;
-  border:1px solid var(--border);color:var(--text2)}
-.cat-card.edu .cat-thumb{background:linear-gradient(135deg,rgba(107,138,253,.15),rgba(139,92,246,.1))}
-.cat-card.edu::before{background:linear-gradient(135deg,rgba(107,138,253,.05),rgba(139,92,246,.03))}
-.cat-card.tool .cat-thumb{background:linear-gradient(135deg,rgba(52,211,153,.15),rgba(107,138,253,.1))}
-.cat-card.tool::before{background:linear-gradient(135deg,rgba(52,211,153,.05),rgba(107,138,253,.03))}
-.cat-card.fun .cat-thumb{background:linear-gradient(135deg,rgba(244,114,182,.15),rgba(212,168,67,.1))}
-.cat-card.fun::before{background:linear-gradient(135deg,rgba(244,114,182,.05),rgba(212,168,67,.03))}
-footer{position:relative;z-index:1;text-align:center;padding:40px 24px;
-  border-top:1px solid var(--border);color:var(--text2);font-size:.75rem}
-footer a{color:var(--accent);text-decoration:none}
+  background:var(--surface2);border:1px solid var(--border);color:var(--text2)}
+
+.cat-card.edu .cat-thumb{background:linear-gradient(160deg,#eef2ff 0%,#e4e9ff 100%)}
+.cat-card.edu::before{background:linear-gradient(160deg,rgba(59,111,248,.03),rgba(90,143,248,.05))}
+.cat-card.tool .cat-thumb{background:linear-gradient(160deg,#f0fdf8 0%,#e4f7ee 100%)}
+.cat-card.tool::before{background:linear-gradient(160deg,rgba(16,185,129,.03),rgba(59,111,248,.05))}
+.cat-card.fun .cat-thumb{background:linear-gradient(160deg,#fff5f9 0%,#ffe4ef 100%)}
+.cat-card.fun::before{background:linear-gradient(160deg,rgba(236,72,153,.03),rgba(212,168,67,.05))}
+
+footer{position:relative;text-align:center;padding:48px 24px;
+  border-top:1px solid var(--border);color:var(--text2);font-size:.75rem;background:var(--surface)}
+footer a{color:var(--accent);text-decoration:none;font-weight:500}
+footer a:hover{text-decoration:underline}
 </style>
 </head>
 <body>
-<div class="drama"><div class="grid-dot"></div></div>
 <section class="hero">
   <div class="hero-badge"><span>&#9679;</span> OPEN SOURCE</div>
   <h1>OnePage</h1>
@@ -81,7 +88,7 @@ footer a{color:var(--accent);text-decoration:none}
     <span class="hero-tag">&#9632; 无依赖</span>
     <span class="hero-tag">&#9632; 即开即用</span>
     <span class="hero-tag">&#9632; 完全开源</span>
-    <span class="hero-tag">&#9632; GitHub Pages 托管</span>
+    <span class="hero-tag">&#9632; GitHub Pages</span>
   </div>
   <div class="hero-stats">
     <div class="stat"><div class="stat-num">1</div><div class="stat-label">工具已上线</div></div>
@@ -89,6 +96,7 @@ footer a{color:var(--accent);text-decoration:none}
     <div class="stat"><div class="stat-num">0</div><div class="stat-label">后端服务</div></div>
   </div>
 </section>
+
 <section class="categories">
   <div class="section-label">浏览分类</div>
   <div class="category-grid">
@@ -124,6 +132,7 @@ footer a{color:var(--accent);text-decoration:none}
     </a>
   </div>
 </section>
+
 <footer>
   <p>OnePage by <a href="https://github.com/jeekeagle">@jeekeagle</a> &middot; Built with GitHub Pages &middot; <a href="https://github.com/jeekeagle/OnePage">View on GitHub</a></p>
 </footer>
