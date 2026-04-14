@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>&#x6c49;&#x5b57;&#x7b14;&#x753b;&#x987a;&#x5e8f;&#x7ec3;&#x4e60;</title>
+<script src="https://cdn.jsdelivr.net/npm/cnchar@3.2.6/cnchar.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/cnchar-draw@3.2.6/cnchar.draw.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/cnchar-order@3.2.6/cnchar.order.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700&family=ZCOOL+XiaoWei&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Serif SC',serif;background:#1c1915;color:#f5f0e8;min-height:100vh;display:flex;flex-direction:column;align-items:center}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:0}
+header{width:100%;padding:28px 40px 16px;text-align:center;position:relative;z-index:1}
+header h1{font-family:'ZCOOL XiaoWei','Noto Serif SC',serif;font-size:2rem;font-weight:400;letter-spacing:.25em;text-shadow:0 2px 20px rgba(212,168,67,.3)}
+header p{font-size:.78rem;color:#8b7d6b;margin-top:6px;letter-spacing:.12em}
+.main-container{position:relative;z-index:1;display:flex;gap:40px;align-items:flex-start;justify-content:center;padding:20px 40px 40px;width:100%;max-width:1100px}
+.writing-panel{display:flex;flex-direction:column;align-items:center;gap:20px;flex-shrink:0}
+.canvas-wrapper{position:relative;width:340px;height:340px;background:#f5f0e8;border-radius:4px;box-shadow:0 0 0 1px rgba(212,168,67,.15),0 20px 60px rgba(0,0,0,.5),inset 0 0 80px rgba(0,0,0,.04);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.canvas-wrapper::after{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(0,0,0,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.06) 1px,transparent 1px),radial-gradient(circle,rgba(0,0,0,.1) 1px,transparent 1px);background-size:34px 34px,34px 34px,34px 34px;pointer-events:none}
+#draw-area{position:relative;z-index:1;width:300px;height:300px}
+#draw-area canvas,#draw-area svg{display:block;width:100%!important;height:100%!important}
+.stroke-info{text-align:center;color:#8b7d6b;font-size:.82rem;letter-spacing:.08em;height:20px}
+.stroke-info span{color:#d4a843;font-weight:600}
+.control-panel{display:flex;flex-direction:column;gap:24px;min-width:280px}
+.input-section{display:flex;flex-direction:column;gap:10px}
+.input-section label{font-size:.75rem;color:#8b7d6b;letter-spacing:.15em;text-transform:uppercase}
+#char-input{width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(212,168,67,.2);border-radius:4px;color:#f5f0e8;font-family:'ZCOOL XiaoWei','Noto Serif SC',serif;font-size:2rem;text-align:center;padding:12px 16px;outline:none;transition:border-color .25s,box-shadow .25s;letter-spacing:.3em}
+#char-input:focus{border-color:#d4a843;box-shadow:0 0 0 3px rgba(212,168,67,.12)}
+#char-input::placeholder{color:rgba(255,255,255,.15);font-size:1rem;letter-spacing:.1em}
+.pinyin-display{text-align:center;font-size:1.1rem;color:#d4a843;letter-spacing:.2em;min-height:28px;margin-top:4px}
+.controls-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ctrl-btn{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:4px;color:#f5f0e8;font-family:'Noto Serif SC',serif;font-size:.85rem;padding:12px 8px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:6px;letter-spacing:.06em}
+.ctrl-btn:hover{background:rgba(212,168,67,.15);border-color:rgba(212,168,67,.4);color:#d4a843}
+.ctrl-btn:active{transform:scale(.97)}
+.ctrl-btn.primary{background:rgba(192,57,43,.2);border-color:rgba(192,57,43,.4);color:#e87070}
+.ctrl-btn.primary:hover{background:rgba(192,57,43,.35);border-color:rgba(192,57,43,.6)}
+.ctrl-btn.accent{background:rgba(212,168,67,.15);border-color:rgba(212,168,67,.35);color:#d4a843}
+.ctrl-btn.accent:hover{background:rgba(212,168,67,.28)}
+.ctrl-btn.full{grid-column:1/-1}
+.ctrl-btn .icon{font-size:1rem;line-height:1}
+.speed-section{display:flex;flex-direction:column;gap:10px}
+.speed-section label{font-size:.75rem;color:#8b7d6b;letter-spacing:.15em;text-transform:uppercase;display:flex;justify-content:space-between}
+#speed-slider{-webkit-appearance:none;appearance:none;width:100%;height:3px;background:rgba(255,255,255,.1);border-radius:2px;outline:none}
+#speed-slider::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;background:#d4a843;border-radius:50%;cursor:pointer;box-shadow:0 0 8px rgba(212,168,67,.5)}
+.suggestions{display:flex;flex-wrap:wrap;gap:8px}
+.suggestion-chip{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:5px 14px;font-size:.82rem;color:#f5f0e8;cursor:pointer;transition:all .2s;font-family:'ZCOOL XiaoWei',serif;letter-spacing:.1em}
+.suggestion-chip:hover{background:rgba(212,168,67,.15);border-color:rgba(212,168,67,.35);color:#d4a843}
+.status-bar{width:100%;max-width:1100px;padding:0 40px 30px;position:relative;z-index:1;display:flex;justify-content:space-between;align-items:center}
+.status-item{font-size:.72rem;color:#8b7d6b;letter-spacing:.1em}
+.status-item b{color:#d4a843}
+.load-error{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:#c0392b;font-size:.9rem;text-align:center;padding:20px}
+.load-error .hint{font-size:.75rem;color:#8b7d6b;max-width:260px}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.writing-panel{animation:fadeInUp .5s ease both}
+.control-panel{animation:fadeInUp .5s .15s ease both}
+@keyframes pulseGlow{0%,100%{box-shadow:0 0 0 1px rgba(212,168,67,.15),0 20px 60px rgba(0,0,0,.5)}50%{box-shadow:0 0 0 1px rgba(212,168,67,.3),0 20px 60px rgba(0,0,0,.5),0 0 30px rgba(212,168,67,.08)}}
+.canvas-wrapper.playing{animation:pulseGlow 2s ease-in-out infinite}
+@media(max-width:800px){.main-container{flex-direction:column;align-items:center;padding:16px 20px 30px;gap:28px}.canvas-wrapper{width:300px;height:300px}#draw-area{width:260px;height:260px}.control-panel{width:100%;max-width:340px}.status-bar{flex-direction:column;gap:6px;text-align:center}}
+</style>
+</head>
+<body>
+<header>
+<h1>&#x6c49;&#x5b57;&#x7b14;&#x753b;&#x987a;&#x5e8f;&#x7ec3;&#x4e60;</h1>
+<p>&#x57fa;&#x4e8e; cnchar &#x7b14;&#x753b;&#x5f15;&#x64ce; &#x00b7; &#x89c2;&#x770b;&#x7b14;&#x987a;&#x52a8;&#x753b;&#xff0c;&#x968f;&#x624b;&#x7ec3;&#x4e60;</p>
+</header>
+<div class="main-container">
+<div class="writing-panel">
+<div class="canvas-wrapper" id="canvas-wrapper">
+<div id="draw-area"></div>
+</div>
+<div class="stroke-info" id="stroke-info">&#x8f93;&#x5165;&#x6c49;&#x5b57;&#x5f00;&#x59cb;&#x7ec3;&#x4e60;</div>
+</div>
+<div class="control-panel">
+<div class="input-section">
+<label>&#x8f93;&#x5165;&#x6c49;&#x5b57;</label>
+<div class="char-input-wrap">
+<input type="text" id="char-input" maxlength="5" placeholder="&#x8bf7;&#x8f93;&#x5165;&#x6c49;&#x5b57;..." autocomplete="off"/>
+</div>
+<div class="pinyin-display" id="pinyin-display"></div>
+<div class="suggestions" id="suggestions"></div>
+</div>
+<div class="controls-grid">
+<button class="ctrl-btn primary full" id="btn-play"><span class="icon">&#x25b6;</span> &#x64ad;&#x653e;&#x7b14;&#x987a;&#x52a8;&#x753b;</button>
+<button class="ctrl-btn" id="btn-prev"><span class="icon">&#x25c0;</span> &#x4e0a;&#x4e00;&#x7b14;</button>
+<button class="ctrl-btn" id="btn-next"><span class="icon">&#x25b6;</span> &#x4e0b;&#x4e00;&#x7b14;</button>
+<button class="ctrl-btn accent" id="btn-reset"><span class="icon">&#x21ba;</span> &#x91cd;&#x7f6e;</button>
+<button class="ctrl-btn" id="btn-auto"><span class="icon">&#x27f3;</span> &#x81ea;&#x52a8;&#x64ad;&#x653e;</button>
+</div>
+<div class="speed-section">
+<label>&#x52a8;&#x753b;&#x901f;&#x5ea6; <span id="speed-label">1.0x</span></label>
+<input type="range" id="speed-slider" min="0.2" max="3" step="0.1" value="1"/>
+</div>
+</div>
+</div>
+<div class="status-bar">
+<span class="status-item">&#x7b14;&#x753b;&#x5f15;&#x64ce;: <b>cnchar</b></span>
+<span class="status-item" id="status-char">&#x7b49;&#x5f85;&#x8f93;&#x5165;...</span>
+</div>
+<script>
+(function(){
+var drawArea=document.getElementById('draw-area');
+var charInput=document.getElementById('char-input');
+var pinyinDisplay=document.getElementById('pinyin-display');
+var suggestions=document.getElementById('suggestions');
+var strokeInfo=document.getElementById('stroke-info');
+var statusChar=document.getElementById('status-char');
+var canvasWrapper=document.getElementById('canvas-wrapper');
+var speedSlider=document.getElementById('speed-slider');
+var speedLabel=document.getElementById('speed-label');
+var currentChar='';
+var drawInstance=null;
+var totalStrokes=0;
+var currentStroke=0;
+var autoInterval=null;
+var animationSpeed=1.0;
+var cncharReady=false;
+
+function s4(u){return String.fromCharCode(u)}
+
+function showLoadError(){
+drawArea.innerHTML='<div class="load-error"><div>&#x26a0; cnchar &#x52a0;&#x8f7d;&#x5931;&#x8d25;</div><div class="hint">&#x8bf7;&#x68c0;&#x67e5;&#x7f51;&#x7edc;&#x8fde;&#x63a5;&#xff0c;&#x6216;&#x5237;&#x65b0;&#x9875;&#x9762;&#x91cd;&#x8bd5;</div></div>';
+statusChar.textContent=s4(0x5f15)+s4(0x52a8)+s4(0x52a0)+s4(0x8f7d)+s4(0x5931)+s4(0x8d25);
+var el=document.querySelector('.status-item b');
+if(el){el.textContent='cnchar \u2717';el.style.color='#c0392b'}
+}
+
+function showSuggestions(chars){
+suggestions.innerHTML=chars.map(function(c){return'<span class="suggestion-chip" data-char="'+c+'">'+c+'</span>'}).join('')
+}
+
+var CHARS=[
+'\u6c38',
+'\u5c71',
+'\u6c34',
+'\u706b',
+'\u9f99',
+'\u51e4',
+'\u98de',
+'\u98ce',
+'\u96e8',
+'\u6797'
+];
+showSuggestions(CHARS);
+
+if(typeof cnchar!=='undefined'&&cnchar.stroke&&cnchar.draw){
+cncharReady=true;
+setTimeout(function(){loadChar('\u6c38')},100)
+}else{
+showLoadError()
+}
+
+function getStrokeCount(ch){if(!cncharReady)return 0;return cnchar.stroke(ch)}
+function getPinyin(ch){if(!cncharReady)return'';var spell=cnchar.spell(ch);return Array.isArray(spell)?spell[0]:spell}
+
+function loadChar(ch){
+if(!ch||!cncharReady)return;
+drawArea.innerHTML='';
+if(autoInterval){clearInterval(autoInterval);autoInterval=null}
+canvasWrapper.classList.remove('playing');
+currentChar=ch;
+totalStrokes=getStrokeCount(ch);
+currentStroke=0;
+if(totalStrokes===0){
+strokeInfo.textContent=s4(0x672a)+s4(0x627e)+s4(0x5230)+s4(0x8be5)+s4(0x5b57)+s4(0x7684)+s4(0x7b14)+s4(0x753b)+s4(0x6570)+s4(0x636e)+s4(0x6361);
+statusChar.textContent=s4(0x4e0d)+s4(0x652f)+s4(0x6301)+s4(0x7684)+s4(0x5b57)+s4(0x7b26);
+return
+}
+var pinyin=getPinyin(ch);
+pinyinDisplay.textContent=pinyin||'';
+strokeInfo.textContent=s4(0x5171)+' '+totalStrokes+' '+s4(0x7b14);
+statusChar.textContent=ch+' ('+(pinyin||(s4(0x65e0)+s4(0x62fc)+s4(0x97f3)))+') '+s4(0x5171)+' '+totalStrokes+' '+s4(0x7b14);
+try{
+drawInstance=cnchar.draw(ch,{
+el:'#draw-area',
+type:'animation',
+autoAnimate:false,
+animation:{autoAnimate:false,stepByStep:true},
+style:{strokeColor:'#c0392b',outlineColor:'rgba(0,0,0,0.06)',strokeFadeDuration:0,length:260,padding:20},
+line:{lineStraight:false,lineCross:false,border:false}
+})
+}catch(e){
+drawArea.innerHTML='<div class="load-error"><div>&#x6e32;&#x67d3;&#x5931;&#x8d25;</div><div class="hint">'+e.message+'</div></div>'
+}
+}
+
+document.getElementById('btn-play').addEventListener('click',function(){
+if(!currentChar||!drawInstance)return;
+canvasWrapper.classList.add('playing');
+try{drawInstance.startAnimation()}catch(e){canvasWrapper.classList.remove('playing')}
+});
+document.getElementById('btn-prev').addEventListener('click',function(){if(!currentChar||!drawInstance)return;stepStroke(-1)});
+document.getElementById('btn-next').addEventListener('click',function(){if(!currentChar||!drawInstance)return;stepStroke(1)});
+document.getElementById('btn-reset').addEventListener('click',function(){if(!currentChar)return;loadChar(currentChar)});
+document.getElementById('btn-auto').addEventListener('click',function(){if(!currentChar)return;toggleAuto()});
+
+function stepStroke(dir){
+if(!drawInstance||!drawInstance.drawNextStroke)return;
+if(dir>0){
+drawInstance.drawNextStroke();
+currentStroke=Math.min(currentStroke+1,totalStrokes)
+}else{
+loadChar(currentChar);
+if(currentStroke+dir<0){currentStroke=0;strokeInfo.textContent=s4(0x5171)+' '+totalStrokes+' '+s4(0x7b14);return}
+currentStroke=currentStroke+dir;
+for(var i=0;i<currentStroke;i++){drawInstance.drawNextStroke()}
+}
+strokeInfo.textContent=s4(0x7b2c)+' '+(currentStroke+1)+' / '+totalStrokes+' '+s4(0x7b14)
+}
+
+function toggleAuto(){
+if(autoInterval){clearInterval(autoInterval);autoInterval=null;canvasWrapper.classList.remove('playing');return}
+canvasWrapper.classList.add('playing');
+var interval=Math.round(1200/animationSpeed);
+autoInterval=setInterval(function(){
+if(!currentChar||!drawInstance){clearInterval(autoInterval);autoInterval=null;canvasWrapper.classList.remove('playing');return}
+if(currentStroke>=totalStrokes){clearInterval(autoInterval);autoInterval=null;canvasWrapper.classList.remove('playing');currentStroke=0;loadChar(currentChar);return}
+try{drawInstance.drawNextStroke()}catch(e){}
+currentStroke++;
+strokeInfo.textContent=s4(0x7b2c)+' '+currentStroke+' / '+totalStrokes+' '+s4(0x7b14)
+},interval)
+}
+
+speedSlider.addEventListener('input',function(){
+animationSpeed=parseFloat(speedSlider.value);
+speedLabel.textContent=animationSpeed.toFixed(1)+'x';
+if(autoInterval){clearInterval(autoInterval);autoInterval=null;toggleAuto()}
+});
+
+charInput.addEventListener('input',function(e){
+var val=e.target.value.replace(new RegExp('[^\u4e00-\u9fa5]','g'),'').slice(0,1);
+e.target.value=val;
+if(val)loadChar(val)
+});
+
+suggestions.addEventListener('click',function(e){
+var chip=e.target.closest('.suggestion-chip');
+if(!chip)return;
+var ch=chip.dataset.char;
+charInput.value=ch;
+loadChar(ch)
+});
+})();
+</script>
+</body>
+</html>
