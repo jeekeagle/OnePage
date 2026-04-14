@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fun - OnePage</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Serif+SC:wght@300;400;600&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0f;--surface:#13131a;--border:rgba(255,255,255,.07);
+  --text:#e8e8ed;--text2:#8888a0;--accent:#6b8afd;--gold:#d4a843;--pink:#f472b6;}
+body{font-family:'Inter','Noto Serif SC',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+.drama{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.drama::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;
+  background:radial-gradient(ellipse at 20% 20%,rgba(244,114,182,.08) 0%,transparent 50%),
+             radial-gradient(ellipse at 80% 80%,rgba(212,168,67,.06) 0%,transparent 50%)}
+.grid-dot{position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.04) 1px,transparent 1px);
+  background-size:48px 48px;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 40%,transparent 100%)}
+header{position:relative;z-index:10;padding:24px 40px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border)}
+.logo{font-size:1rem;font-weight:600;letter-spacing:.05em;text-decoration:none;color:var(--text);display:flex;align-items:center;gap:8px}
+.logo span{color:var(--accent)}
+.back{font-size:.78rem;color:var(--text2);text-decoration:none;display:flex;align-items:center;gap:6px;transition:color .2s}
+.back:hover{color:var(--text)}
+.hero{position:relative;z-index:1;padding:80px 24px 60px;text-align:center}
+.hero h1{font-size:clamp(2rem,6vw,3.5rem);font-weight:700;letter-spacing:-.02em;
+  background:linear-gradient(135deg,#fff 30%,rgba(244,114,182,.6));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:12px}
+.hero p{font-size:1rem;color:var(--text2);max-width:480px;margin:0 auto;font-family:'Noto Serif SC',serif;line-height:1.7}
+.empty-state{position:relative;z-index:1;max-width:480px;margin:0 auto;padding:60px 24px 120px;text-align:center}
+.empty-icon{font-size:4rem;margin-bottom:20px;opacity:.3}
+.empty-text{font-size:.9rem;color:var(--text2);line-height:1.8;font-family:'Noto Serif SC',serif}
+footer{position:relative;z-index:1;text-align:center;padding:40px 24px;border-top:1px solid var(--border);color:var(--text2);font-size:.75rem}
+footer a{color:var(--accent);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="drama"><div class="grid-dot"></div></div>
+<header>
+  <a href="../" class="logo"><span>&#8592;</span> OnePage</a>
+  <a href="../" class="back">&#8592; Back</a>
+</header>
+<section class="hero">
+  <h1>Fun</h1>
+  <p>趣味工具，好玩的小游戏和创意小页面。</p>
+</section>
+<div class="empty-state">
+  <div class="empty-icon">&#x1F389;</div>
+  <div class="empty-text">趣味内容正在制作中<br>敬请期待...</div>
+</div>
+<footer>
+  <p>OnePage by <a href="https://github.com/jeekeagle">@jeekeagle</a> &middot; <a href="https://github.com/jeekeagle/OnePage">View on GitHub</a></p>
+</footer>
+</body>
+</html>
